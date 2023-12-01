@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 import paho.mqtt.client as mqtt
 import threading
+import logging
+import time
 
 app = Flask(__name__)
 
@@ -14,10 +16,6 @@ sensor_data = "No data"
 sensor_data_lock = threading.Lock()  # Lock to ensure thread safety
 
 # Configure logging to prevent printing messages to console
-import logging
-import threading
-import time
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -25,7 +23,6 @@ logger = logging.getLogger(__name__)
 def on_connect(client, userdata, flags, rc):
     logger.info("Connected with result code " + str(rc))
     client.subscribe(topic_sensor)
-
 
 def on_message(client, userdata, msg):
     global sensor_data
@@ -46,12 +43,13 @@ client.loop_start()
 def update_sensor_data():
     global sensor_data
     while True:
-        time.sleep(0,1)
+        time.sleep(0.1)
+        # You should fetch data from the MQTT topic here
+        # For simplicity, let's assume data is stored in a variable called 'data'
         with sensor_data_lock:
-            # Implement logic to fetch data from the MQTT topic and update sensor_data
-            # For simplicity, let's assume data is stored in a variable called 'data'
-            sensor_data = str(msg.payload, 'utf-8')
-            
+            # Replace the next line with your actual logic to fetch data from the MQTT topic
+            mqtt_data = sensor_data  # Replace with your actual logic
+            sensor_data = str(mqtt_data)
 
 # Start the thread for updating sensor_data
 update_thread = threading.Thread(target=update_sensor_data)

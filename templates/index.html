@@ -7,7 +7,6 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Function to send LED message
             function sendLedMessage(ledMessage) {
                 $.ajax({
                     url: '/send_led_message',
@@ -15,12 +14,19 @@
                     data: { 'led_message': ledMessage },
                     success: function() {
                         // Optionally update the UI after sending the LED message
-                        // This can be done based on the requirements of your application
                     }
                 });
             }
 
-            // Event handlers for the buttons
+            function updateSensorData() {
+                $.get('/get_sensor_data', function(data) {
+                    $('#sensor-data').text(data);
+                });
+            }
+
+            // Periodically update sensor data every 1 second
+            setInterval(updateSensorData, 1000);
+
             $('#button1').click(function() {
                 sendLedMessage('on1');
             });

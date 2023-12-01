@@ -1,2 +1,2 @@
-FLask==2.2.2
+FLa	k==2.2.2
 paho-mqtt=1.6.1
