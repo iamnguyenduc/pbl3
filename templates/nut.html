@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control Lights</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0./mqttws31.min.js"></script>
+</head>
+<body>
+    <h1>Control Lights</h1>
+
+    <button id="toggleLight">Toggle Light</button>
+
+    <script>
+        var mqtt = new Paho.MQTT.Client("broker.emqx.io", 1883, "web_" + parseInt(Math.random() * 100, 10));
+
+        mqtt.on('connect', function () {
+            console.log("Connected to MQTT broker");
+        });
+
+        mqtt.connect();
+
+        // Function to publish an MQTT message
+        function toggleLight() {
+            var message = "on1";
+            mqtt.publish('led', message);
+        }
+
+        // Attach click event to the button
+        var toggleLightButton = document.getElementById("toggleLight");
+        toggleLightButton.addEventListener("click", function () {
+            toggleLight();
+        });
+    </script>
+</body>
+</html>

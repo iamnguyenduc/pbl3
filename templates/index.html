@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask MQTT Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to send LED message
+            function sendLedMessage(ledMessage) {
+                $.ajax({
+                    url: '/send_led_message',
+                    type: 'POST',
+                    data: { 'led_message': ledMessage },
+                    success: function() {
+                        // Optionally update the UI after sending the LED message
+                        // This can be done based on the requirements of your application
+                    }
+                });
+            }
+
+            // Event handlers for the buttons
+            $('#button1').click(function() {
+                sendLedMessage('on1');
+            });
+
+            $('#button2').click(function() {
+                sendLedMessage('on2');
+            });
+
+            $('#button3').click(function() {
+                sendLedMessage('off1');
+            });
+
+            $('#button4').click(function() {
+                sendLedMessage('off2');
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Sensor Data</h1>
+    <p id="sensor-data">{{ sensor_data }}</p>
+
+    <h2>Send LED Message</h2>
+    <button id="button1">on led 1</button>
+    <button id="button2">on led 2</button>
+    <button id="button3">off led 1</button>
+    <button id="button4">off led 2</button>
+</body>
+</html>
